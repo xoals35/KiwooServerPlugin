@@ -1,4 +1,4 @@
-# PeutiBoradcastPlugin-
+# PeutiBoradcastPlugin- (EXILED)
 scp sl Boradcast 플러그인 (한국어 고정)
 
 플러그인 COnfig 파일 아직없음 추가예정
