@@ -37,7 +37,10 @@ using DamageType = Exiled.API.Enums.DamageType;
 using BaseFirearmHandler = PlayerStatsSystem.FirearmDamageHandler;
 using BaseHandler = PlayerStatsSystem.DamageHandlerBase;
 using BaseScpDamageHandler = PlayerStatsSystem.ScpDamageHandler;
-
+using System.ComponentModel;
+using static UnityEngine.GraphicsBuffer;
+using System.Diagnostics.Eventing.Reader;
+using Exiled.API.Features.Spawn;
 
 
 namespace PeutiPlugin
@@ -45,7 +48,7 @@ namespace PeutiPlugin
 
     public class EventHandlers : IDisposable
     {
-        
+
 
         private BroadcastPlugin _pluginInstance;
         public EventHandlers(BroadcastPlugin pluginInstance)
@@ -57,6 +60,10 @@ namespace PeutiPlugin
         private static Dictionary<string, DateTime> PreauthTime { get; set; } = new Dictionary<string, DateTime>();
         public static Dictionary<Features.Player, DateTime> LastRespawn { get; set; } = new Dictionary<Features.Player, DateTime>();
         private static Dictionary<Features.Player, string> Cuffed { get; set; } = new Dictionary<Features.Player, string>();
+
+
+
+
 
         public int ChaosRespawnCount { get; set; }
 
@@ -79,7 +86,9 @@ namespace PeutiPlugin
             Map.Broadcast(10, $"<color=red>{ev.Player.Nickname}</color>(이)가 <color=red>SCP</color>진영에서 게임을 중도 퇴장했습니다.\n신고용 URL:<color=green>{ev.Player.UserId}</color>");
         }
 
-        
+
+     
+
 
         internal void OnAnnouncingDecontamination(AnnouncingDecontaminationEventArgs ev)
         {
@@ -179,6 +188,7 @@ namespace PeutiPlugin
                     {
                         team[0].ShowHint(_pluginInstance.Config.LastPlayerAliveNotificationText, _pluginInstance.Config.LastPlayerAliveMessageDuration);
                     }
+
                 }
             }
         }
@@ -186,9 +196,50 @@ namespace PeutiPlugin
 
 
 
-       
+        internal void OnSpawning(SpawningEventArgs ev)
+        {
+            if (ev.Player == null) return;
 
-            public void OnAnnouncingScpTermination(AnnouncingScpTerminationEventArgs ev)
+
+            if (ev.Player.Role == RoleTypeId.Scp3114)
+            {
+                ev.Player.MaxHealth = 3500;
+
+            }
+            if (ev.Player.Role == RoleTypeId.Scp096)
+            {
+                ev.Player.MaxHealth = 2900;
+            }
+        } // 밑에 꺼 사용할시 지금 주석처리 된 앞에있는 } 삭제하고 밑에 꺼 드래그 한다음에 Ctrl + K + U
+          //    if (ev.Player.Role == RoleTypeId.Scp0492)
+          //    {
+          //        ev.Player.MaxHealth = 2900;
+          //    }
+          //    if (ev.Player.Role == RoleTypeId.Scp106)
+          //    {
+          //        ev.Player.MaxHealth = 2900;
+          //    }
+          //    if (ev.Player.Role == RoleTypeId.Scp173)
+          //    {
+          //        ev.Player.MaxHealth = 2900;
+          //    }
+          //    if (ev.Player.Role == RoleTypeId.Scp939)
+          //    {
+          //        ev.Player.MaxHealth = 2900;
+          //    }
+          //}
+
+
+
+        internal void OnRoundEnding(RoundEndedEventArgs ev)
+        {
+
+
+            Map.Broadcast(10, "<color=green>라운드가 종료되었습니다.</color>");
+        }
+
+
+        public void OnAnnouncingScpTermination(AnnouncingScpTerminationEventArgs ev)
         {
             if (ev.Player == null) return;
             if (ev.DamageHandler.Type == DamageTypes.Crushed || ev.DamageHandler.Type == DamageTypes.Falldown || ev.DamageHandler.Type == DamageTypes.Unknown && ev.DamageHandler.Damage >= 50000 || ev.DamageHandler.Type == DamageTypes.Unknown && ev.DamageHandler.Damage >= 50000 || ev.DamageHandler.Type == DamageTypes.Tesla || ev.DamageHandler.Type == DamageTypes.Warhead || (ev.DamageHandler.Type == DamageTypes.Explosion && ev.DamageHandler.IsSuicide))
@@ -237,13 +288,13 @@ namespace PeutiPlugin
 
         public void OnStopping(StoppingEventArgs ev)
         {
-            Map.Broadcast(8, $"<color=red>알파탄두 핵폭탄</color>이 취소되었습니다. \n취소한 사람: {ev.Player.Nickname}/{ev.Player.Role}");
+            Map.Broadcast(8, $"<color=red>알파탄두 핵폭탄</color>이 취소되었습니다. \n취소한 사람: {ev.Player.Nickname}/{ev.Player.Role.Name}");
         }
 
         /// <inheritdoc cref="Exiled.Events.Handlers.Warhead.OnStarting(StartingEventArgs)"/>
         public void OnStarting(StartingEventArgs ev)
         {
-            Map.Broadcast(8, $"<color=red>알파탄두 핵폭탄</color>이 실행되었습니다. \n실행한 사람: {ev.Player.Nickname}/{ev.Player.Role}");
+            Map.Broadcast(8, $"<color=red>알파탄두 핵폭탄</color>이 실행되었습니다. \n실행한 사람: {ev.Player.Nickname}/{ev.Player.Role.Name}");
         }
 
 
@@ -251,6 +302,7 @@ namespace PeutiPlugin
         {
             if (_pluginInstance.Config.HandCuffOwnership)
             {
+                
                 if (!Cuffed.ContainsKey(ev.Target)) ev.IsAllowed = true;
 
                 else if (Cuffed.FirstOrDefault(x => x.Key == ev.Target).Key.Role.Team == PlayerRoles.Team.ClassD && ev.Player.Role.Team == PlayerRoles.Team.ChaosInsurgency)
@@ -293,6 +345,8 @@ namespace PeutiPlugin
                 if (Cuffed.ContainsKey(ev.Target)) Cuffed.Remove(ev.Target);
                 Cuffed.Add(ev.Target, ev.Player.UserId);
             }
+
+
         }
 
 
