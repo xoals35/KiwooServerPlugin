@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,7 +41,7 @@ namespace PeutiPlugin
 
             if (player.Role.Team != Team.SCPs)
             {
-                response = "당신은 SCP진영이 아닙니다.";
+                response = "당신은 SCP진영이 아닙니다.(플라밍고 제외)";
                 return true;
             }
             string content = $"<color=red>[SCPCHAT]</color>{player.Nickname}({player.Role.Name})\n 메세지 내용:";
