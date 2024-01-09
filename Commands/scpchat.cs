@@ -26,42 +26,66 @@ namespace PeutiPlugin
 {
 
     [CommandHandler(typeof(ClientCommandHandler))]
-    [CommandHandler(typeof(Console))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
+
     internal class scpchat : ICommand
     {
         public string Command { get; } = "scpchat";
-        public string[] Aliases { get; } = new[] { "c" };
+        public string[] Aliases { get; } = new[] { "c", "ㅊ" };
         public string Description { get; } = "scpchat 입니다.";
         public bool Execute(ArraySegment<string> Arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(((CommandSender)sender).SenderId);
-       
+            
 
+
+
+            
+            string content = $"<color=red>[SCPCHAT]</color>{player.Nickname}({player.Role.Name})\n 메세지 내용: ";
+
+            for (int i = Arguments.Offset; i < Arguments.Count + Arguments.Offset; i++)
+            {
+                content += Arguments.Array[i] + " ";
+            }
+            response = null;
 
             if (player.Role.Team != Team.SCPs)
             {
                 response = "당신은 SCP진영이 아닙니다.(플라밍고 제외)";
                 return true;
             }
-            string content = $"<color=red>[SCPCHAT]</color>{player.Nickname}({player.Role.Name})\n 메세지 내용:";
 
-            for (int i = Arguments.Offset; i < Arguments.Count + Arguments.Offset; i++)
+            foreach (var targetPlayer in Player.List)
             {
-                content += Arguments.Array[i] + " ";
+                if (targetPlayer.Role.Team == Team.SCPs)
+                {
+                    targetPlayer.Broadcast(5, content);
+                    Log.Info($"{player.UserId}'s message : {content}");
+                    return true;
+                }
+                
+               
             }
-
-
-            response = $"{content}";
-            if (player.Role.Team == Team.SCPs) player.Broadcast(5, response);
-            return true;
-
-
             
-         
+
+
+
+
+
+
+            response = null;
+            return false;
+        }
+       
+            
         }
 
-        }
+
+
+
     }
+
+        
+   
 
 
