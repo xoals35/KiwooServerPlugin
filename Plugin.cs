@@ -39,7 +39,11 @@ namespace PeutiPlugin
             PlayerEvents.RemovingHandcuffs += EventHandlers.OnPlayerUnhandCuff;
             MapEvents.AnnouncingScpTermination += EventHandlers.OnAnnouncingScpTermination;
             PlayerEvents.Left += EventHandlers.OnScpLeave;
-            ServerEvents.RoundStarted += EventHandlers.OnRoundStarting;
+            PlayerEvents.Spawning += EventHandlers.OnSpawning;
+            WarheadEvents.Starting += EventHandlers.OnStarting;
+            WarheadEvents.Stopping += EventHandlers.OnStopping;
+           
+            
 
 
         }
@@ -62,16 +66,19 @@ namespace PeutiPlugin
             MapEvents.AnnouncingDecontamination -= EventHandlers.OnAnnouncingDecontamination;
             MapEvents.Decontaminating -= EventHandlers.OnDecontaminating;
             MapEvents.AnnouncingNtfEntrance -= EventHandlers.OnAnnouncingNtfEntrance;
-            PlayerEvents.Dying += EventHandlers.OnPlayerDeath;
-            Handlers.Scp079.InteractingTesla += EventHandlers.On079TeslaEvent;
-            ServerEvents.RoundEnded += EventHandlers.OnRoundEnded;
-            Handlers.Scp096.AddingTarget += EventHandlers.On096AddTarget;
-            ServerEvents.RespawningTeam += EventHandlers.OnTeamRespawn;
-            PlayerEvents.Handcuffing += EventHandlers.OnPlayerHandcuff;
-            PlayerEvents.RemovingHandcuffs += EventHandlers.OnPlayerUnhandCuff;
-            MapEvents.AnnouncingScpTermination += EventHandlers.OnAnnouncingScpTermination;
+            PlayerEvents.Dying -= EventHandlers.OnPlayerDeath;
+            Handlers.Scp079.InteractingTesla -= EventHandlers.On079TeslaEvent;
+            ServerEvents.RoundEnded -= EventHandlers.OnRoundEnded;
+            Handlers.Scp096.AddingTarget -= EventHandlers.On096AddTarget;
+            ServerEvents.RespawningTeam -= EventHandlers.OnTeamRespawn;
+            PlayerEvents.Handcuffing -= EventHandlers.OnPlayerHandcuff;
+            PlayerEvents.RemovingHandcuffs -= EventHandlers.OnPlayerUnhandCuff;
+            MapEvents.AnnouncingScpTermination -= EventHandlers.OnAnnouncingScpTermination;
             PlayerEvents.Left -= EventHandlers.OnScpLeave;
-            ServerEvents.RoundStarted -= EventHandlers.OnRoundStarting;
+            PlayerEvents.Spawning -= EventHandlers.OnSpawning;
+            WarheadEvents.Starting -= EventHandlers.OnStarting;
+            WarheadEvents.Stopping -= EventHandlers.OnStopping;
+
 
 
 
