@@ -1,3 +1,5 @@
+using Exiled.API.Enums;
+using Exiled.API.Features.Spawn;
 using Exiled.API.Interfaces;
 using Exiled.Events;
 using PlayerRoles;
@@ -47,18 +49,27 @@ namespace PeutiPlugin
         [Description("수갑의 소유자(그리고 수갑을 찬 플레이어의 동료)만이 수갑을 풀 수 있어야 합니까?")]
         public bool HandCuffOwnership { get; private set; } = false;
 
-        [Description("Text shown if a player doesn't own the handcuffed player")]
+        [Description("다른 플레이어한테 내가 체포한 사람의 체포권한 소유권이 없을때 메세지를 어떻게 나올것인가.")]
         public Exiled.API.Features.Broadcast UnhandCuffDenied { get; private set; } = new Exiled.API.Features.Broadcast("<color=blue>귀하는 이 플레이어의 소유권이 없으므로 수갑을 풀 수 없습니다!</color>", 8, true, Broadcast.BroadcastFlags.Normal);
 
 
-        [Description("Which message should be shown to who become SCP-096 target?")]
+        [Description("096에 타겟이 될떄 메세지가 떠야하나요?")]
         public string Scp096TargetNotifyText { get; private set; } = "<color=red>경고:</color>\n<color=purple>당신은 096의 타켓입니다 도망가세요!!</color>";
 
         [Description("Should SCP Leave message be shown?")]
         public bool ScpLeftMessageEnable { get; private set; } = true;
 
 
-   
+        [Description("Should SCP list message be shown?")]
+        public bool ScpListMessageEnable { get; private set; } = true;
+
+        [Description("Should Cuffedkill message be shown?")]
+        public bool CuffedkillMessageEnable { get; private set; } = true;
+
+    
+
+
+
     }
 }
 
