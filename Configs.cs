@@ -46,12 +46,6 @@ namespace PeutiPlugin
         [Description("Is 096's notify target feature enabled?")]
         public bool Scp096TargetNotifyEnabled { get; private set; } = true;
 
-        [Description("수갑의 소유자(그리고 수갑을 찬 플레이어의 동료)만이 수갑을 풀 수 있어야 합니까?")]
-        public bool HandCuffOwnership { get; private set; } = false;
-
-        [Description("다른 플레이어한테 내가 체포한 사람의 체포권한 소유권이 없을때 메세지를 어떻게 나올것인가.")]
-        public Exiled.API.Features.Broadcast UnhandCuffDenied { get; private set; } = new Exiled.API.Features.Broadcast("<color=blue>귀하는 이 플레이어의 소유권이 없으므로 수갑을 풀 수 없습니다!</color>", 8, true, Broadcast.BroadcastFlags.Normal);
-
 
         [Description("096에 타겟이 될떄 메세지가 떠야하나요?")]
         public string Scp096TargetNotifyText { get; private set; } = "<color=red>경고:</color>\n<color=purple>당신은 096의 타켓입니다 도망가세요!!</color>";
@@ -66,7 +60,19 @@ namespace PeutiPlugin
         [Description("Should Cuffedkill message be shown?")]
         public bool CuffedkillMessageEnable { get; private set; } = true;
 
-    
+        [Description("SCP-106의 공격을 받은 플레이어에게 보내는 메세지")]
+        public string CaughtHintText { get; set; } = "";
+
+        [Description("Caught to PD player hint duration")]
+        public float CaughtHintDuration { get; set; } = 5.0F;
+
+        [Description("PD를 탈출한 플레이어에게 보내는 힌트")]
+        public string EscapedHintText { get; set; } = "";
+
+        [Description("Escaped PD hint duration")]
+        public float EscapedHintDuration { get; set; } = 5.0F;
+
+
 
 
 
