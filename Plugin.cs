@@ -38,12 +38,10 @@ namespace PeutiPlugin
             ServerEvents.RoundEnded += EventHandlers.OnRoundEnded;
             Handlers.Scp096.AddingTarget += EventHandlers.On096AddTarget;
             ServerEvents.RespawningTeam += EventHandlers.OnTeamRespawn;
-            PlayerEvents.Handcuffing += EventHandlers.OnPlayerHandcuff;
-            PlayerEvents.RemovingHandcuffs += EventHandlers.OnPlayerUnhandCuff;
             MapEvents.AnnouncingScpTermination += EventHandlers.OnAnnouncingScpTermination;
             PlayerEvents.Left += EventHandlers.OnScpLeave;
-            PlayerEvents.Spawning += EventHandlers.OnSpawning;
             WarheadEvents.Starting += EventHandlers.OnStarting;
+            //PlayerEvents.Spawning -= EventHandlers.OnSpawning;
             WarheadEvents.Stopping += EventHandlers.OnStopping;
             Exiled.Events.Handlers.Player.Hurting += OnAttack;
             Exiled.Events.Handlers.Player.EscapingPocketDimension += OnEscaping;
@@ -76,11 +74,9 @@ namespace PeutiPlugin
             ServerEvents.RoundEnded -= EventHandlers.OnRoundEnded;
             Handlers.Scp096.AddingTarget -= EventHandlers.On096AddTarget;
             ServerEvents.RespawningTeam -= EventHandlers.OnTeamRespawn;
-            PlayerEvents.Handcuffing -= EventHandlers.OnPlayerHandcuff;
-            PlayerEvents.RemovingHandcuffs -= EventHandlers.OnPlayerUnhandCuff;
             MapEvents.AnnouncingScpTermination -= EventHandlers.OnAnnouncingScpTermination;
             PlayerEvents.Left -= EventHandlers.OnScpLeave;
-            PlayerEvents.Spawning -= EventHandlers.OnSpawning;
+            //PlayerEvents.Spawning -= EventHandlers.OnSpawning;
             WarheadEvents.Starting -= EventHandlers.OnStarting;
             WarheadEvents.Stopping -= EventHandlers.OnStopping;
             Exiled.Events.Handlers.Player.Hurting -= OnAttack;
