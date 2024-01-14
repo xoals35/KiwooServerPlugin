@@ -10,6 +10,9 @@ using Exiled.Events;
 using PeutiPlugin;
 using System;
 using System.Runtime.InteropServices;
+using Exiled.Events.EventArgs.Player;
+using PlayerRoles;
+using System.ComponentModel;
 
 namespace PeutiPlugin
 {
@@ -42,8 +45,10 @@ namespace PeutiPlugin
             PlayerEvents.Spawning += EventHandlers.OnSpawning;
             WarheadEvents.Starting += EventHandlers.OnStarting;
             WarheadEvents.Stopping += EventHandlers.OnStopping;
-           
-            
+            Exiled.Events.Handlers.Player.Hurting += OnAttack;
+            Exiled.Events.Handlers.Player.EscapingPocketDimension += OnEscaping;
+
+
 
 
         }
@@ -78,14 +83,34 @@ namespace PeutiPlugin
             PlayerEvents.Spawning -= EventHandlers.OnSpawning;
             WarheadEvents.Starting -= EventHandlers.OnStarting;
             WarheadEvents.Stopping -= EventHandlers.OnStopping;
-
+            Exiled.Events.Handlers.Player.Hurting -= OnAttack;
+            Exiled.Events.Handlers.Player.EscapingPocketDimension -= OnEscaping;
 
 
 
             EventHandlers = null;
         }
 
-        public override void OnReloaded()
+            public void OnEscaping(EscapingPocketDimensionEventArgs ev)
+            {
+                ev.Player.ShowHint(Config.EscapedHintText, Config.EscapedHintDuration);
+            }
+
+            public void OnAttack(HurtingEventArgs ev)
+            {
+                if (ev.Attacker != null && ev.Player != null)
+                {
+                    if (ev.Attacker.Role == RoleTypeId.Scp106)
+                    {
+                        ev.Player.ShowHint(Config.CaughtHintText.Replace("%attacker%", ev.Attacker.Nickname), Config.CaughtHintDuration);
+                        ev.Player.EnableEffect(EffectType.Corroding);
+                    }
+                }
+            }
+    
+
+
+public override void OnReloaded()
         {
 
         }
