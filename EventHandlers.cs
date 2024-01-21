@@ -75,7 +75,146 @@ namespace PeutiPlugin
         public DateTime LastMtfRespawn { get; set; }
 
 
-        internal void OnRoundStartin경
+        internal void OnRoundStarting()
+        {
+            if (!_pluginInstance.Config.IsEnabled) return;
+            Map.Broadcast(10, "<color=orange>라운드가 시작되었습니다.</color>");
+        }
+
+        internal void OnScpLeave(LeftEventArgs ev)
+        {
+            if (ev.Player.Role.Team != Team.SCPs || !_pluginInstance.Config.ScpLeftMessageEnable) return;
+            Map.Broadcast(10, $"<color=red>{ev.Player.Nickname}</color>(이)가 <color=red>SCP</color>진영에서 게임을 중도 퇴장했습니다.\n신고용 URL:<color=green>{ev.Player.UserId}</color>");
+        }
+
+
+        public void OnPlayerDied(DyingEventArgs ev)
+        {
+            if (ev.DamageHandler.Type == DamageTypes.Falldown)return;
+            if (ev.Player == null) return;
+            
+            bool isCuffed = ev.Player.IsCuffed;
+            bool IsAttacker = ev.Attacker.IsHuman;
+
+            if (isCuffed && IsAttacker)
+            {
+                Map.Broadcast(5, $"<size=30><color=red>{ev.Attacker.Nickname}</color>(이)가 <color=yellow>{ev.Player.Nickname}</color>님을 체포킬 하셨습니다.</size>\n신고용 URL:<color=green>{ev.Player.UserId}</color>");
+            }
+        }
+
+
+
+    
+
+
+
+        internal void OnAnnouncingDecontamination(AnnouncingDecontaminationEventArgs ev)
+        {
+            switch (ev.Id)
+            {
+                case 0:
+                    {
+                        Map.Broadcast(10, "<size=33><color=red>저위험군 격리 절차</color> 실행까지 <color=red>15분</color> 남았습니다.</size>");
+                        break;
+                    }
+                case 1:
+                    {
+                        Map.Broadcast(10, "<size=33><color=red>저위험군 격리 절차</color> 실행까지 <color=red>10분</color> 남았습니다.</size>");
+                        break;
+                    }
+                case 2:
+                    {
+                        Map.Broadcast(10, "<size=33><color=red>저위험군 격리 절차</color> 실행까지 <color=red>5분</color> 남았습니다.</size>");
+                        break;
+                    }
+                case 3:
+                    {
+                        Map.Broadcast(10, "<size=33><color=red>저위험군 격리 절차</color> 실행까지 <color=red>1분</color> 남았습니다.\n저위험군에 남아있는 인원은 신속히 대피하시기 바랍니다.</size>");
+                        break;
+                    }
+                case 4:
+                    {
+                        Map.Broadcast(10, "<size=33><color=red>저위험군 격리 절차</color> 실행까지 <color=red>30초</color> 남았습니다.\n저위험군에 남아있는 인원은 신속히 대피하시기 바랍니다.</size>");
+                        break;
+                    }
+            }
+        }
+
+        internal void OnDecontaminating(DecontaminatingEventArgs ev)
+        {
+            Map.Broadcast(10, "<color=red><size=33>저위험군 격리 절차</color>가 시작되었습니다.</size>");
+        }
+
+        internal void OnRoundEnded(RoundEndedEventArgs _)
+        {
+
+            Cuffed.Clear();
+            LastRespawn.Clear();
+        }
+
+        internal void OnTeamRespawn(RespawningTeamEventArgs ev)
+        {
+
+            if (ev.NextKnownTeam.ToString() == "ChaosInsurgency")
+            {
+                ChaosRespawnCount++;
+                LastChaosRespawn = DateTime.Now;
+            }
+
+            else if (ev.NextKnownTeam.ToString() == "NineTailedFox")
+            {
+                MtfRespawnCount++;
+                LastMtfRespawn = DateTime.Now;
+            }
+
+        }
+
+        internal void On096AddTarget(AddingTargetEventArgs ev)
+        {
+            if (_pluginInstance.Config.Scp096TargetNotifyEnabled)
+            {
+                ev.Target.ShowHint(_pluginInstance.Config.Scp096TargetNotifyText, _pluginInstance.Config.Scp096TargetMessageDuration);
+            }
+        }
+
+        internal void On079TeslaEvent(InteractingTeslaEventArgs _)
+        {
+            lastTeslaEvent = DateTime.Now;
+        }
+
+        internal void OnAnnouncingNtfEntrance(AnnouncingNtfEntranceEventArgs ev)
+        {
+            Map.Broadcast(10, $"<size=33><color=blue>기동특무부대 {ev.UnitName}-{ev.UnitNumber}</color>이 시설 내에 진입했습니다.\n재격리 대기 중인 <color=red>SCP</color>개체는 <color=red>{ev.ScpsLeft}</color>마리입니다.</size>");
+        }
+
+        public void OnPlayerDeath(DyingEventArgs ev)
+        {
+
+            if (ev.Player == null) return;
+
+            if (_pluginInstance.Config.NotifyLastPlayerAlive)
+            {
+
+                List<Features.Player> team = Features.Player.Get(ev.Player.Role.Team).ToList();
+                if (team.Count - 1 == 1)
+                {
+                    if (team[0] == ev.Player)
+                    {
+                        team[1].ShowHint(_pluginInstance.Config.LastPlayerAliveNotificationText, _pluginInstance.Config.LastPlayerAliveMessageDuration);
+                    }
+                    else
+                    {
+                        team[0].ShowHint(_pluginInstance.Config.LastPlayerAliveNotificationText, _pluginInstance.Config.LastPlayerAliveMessageDuration);
+                    }
+
+                }
+            }
+        }
+
+
+
+
+        //internal void OnSpawning(SpawningEventArgs ev)
         //{
         //    if (ev.Player == null) return;
 
