@@ -214,28 +214,6 @@ namespace PeutiPlugin
 
 
 
-        //internal void OnSpawning(SpawningEventArgs ev)
-        //{
-        //    if (ev.Player == null) return;
-
-
-        //    if (ev.Player.Role == RoleTypeId.Scp3114)
-        //    {
-        //        ev.Player.MaxHealth = 2000;
-                
-
-        //    }
-        //    if (ev.Player.Role == RoleTypeId.Scp096)
-        //    {
-        //        ev.Player.MaxHealth = 2900;
-        //    }
-        //    if (ev.Player.Role == RoleTypeId.Scp106)
-        //     {
-        //         ev.Player.MaxHealth = 2500;
-                
-        //     }
-        //}
-
        
     
 
@@ -291,7 +269,6 @@ namespace PeutiPlugin
         {
             Map.Broadcast(8, $"<color=red>알파탄두 핵폭탄</color>이 취소되었습니다. \n취소한 사람: {ev.Player.Nickname}/{ev.Player.Role.Name}");
         }
-
         /// <inheritdoc cref="Exiled.Events.Handlers.Warhead.OnStarting(StartingEventArgs)"/>
         public void OnStarting(StartingEventArgs ev)
         {
