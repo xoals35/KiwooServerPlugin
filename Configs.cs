@@ -25,11 +25,9 @@ namespace PeutiPlugin
         [Description("마지막 플레이어 생존 메시지 기간(활성화된 경우)")]
         public ushort LastPlayerAliveMessageDuration { get; private set; } = 12;
 
-        [Description("Are quits as SCP considered a warnable offence?")]
+        [Description("이 기능은 그냥 냅두시면 됩니다(사용되지 않음)")]
         public bool QuitEqualsSuicide { get; private set; } = true;
 
-        [Description("If 079 trigger tesla for how many seconds player shouldn't get warned for suicide? (2 is enough for most of servers)")]
-        public int Scp079TeslaEventWait { get; private set; } = 2;
 
         [Description("scp격리 자살 메세지")]
         public Exiled.API.Features.Broadcast ScpSuicideMessage { get; private set; } = new Exiled.API.Features.Broadcast("<color=red>%scpname%</color>(이)가 격리되었습니다.. 원인: %reason%</color>", 12, true, Broadcast.BroadcastFlags.Normal);
@@ -40,37 +38,32 @@ namespace PeutiPlugin
         [Description("SCP-049-2의 죽음을 방송해야 합니까?")]
         public bool Scp0492DeathBroadcast { get; private set; } = false;
 
-        [Description("SCP-096 target message duration (if enabled)")]
+        [Description("096의 대상 알림 기능 지속시간을 몇초로 하실건가요?")]
         public ushort Scp096TargetMessageDuration { get; private set; } = 12;
 
-        [Description("Is 096's notify target feature enabled?")]
+        [Description("096의 대상 알림 기능이 활성화 하실건가요?")]
         public bool Scp096TargetNotifyEnabled { get; private set; } = true;
 
 
         [Description("096에 타겟이 될떄 메세지가 떠야하나요?")]
         public string Scp096TargetNotifyText { get; private set; } = "<color=red>경고:</color>\n<color=purple>당신은 096의 타켓입니다 도망가세요!!</color>";
 
-        [Description("Should SCP Leave message be shown?")]
+        [Description("SCP가 중토퇴장씨 메세지를 보내실건가요?")]
         public bool ScpLeftMessageEnable { get; private set; } = true;
 
-
-        [Description("Should SCP list message be shown?")]
-        public bool ScpListMessageEnable { get; private set; } = true;
-
-        [Description("Should Cuffedkill message be shown?")]
-        public bool CuffedkillMessageEnable { get; private set; } = true;
 
         [Description("SCP-106의 공격을 받은 플레이어에게 보내는 메세지")]
         public string CaughtHintText { get; set; } = "";
 
-        [Description("Caught to PD player hint duration")]
+        [Description("106 한방 차원기능 힌트 지속시간(냅두시면 됩니다 메세지 안나옵니다)")]
         public float CaughtHintDuration { get; set; } = 5.0F;
 
-        [Description("PD를 탈출한 플레이어에게 보내는 힌트")]
+        [Description("위 설명과 같은 (106 한방 차원기능 힌트 메세지 ~)")]
         public string EscapedHintText { get; set; } = "";
 
-        [Description("Escaped PD hint duration")]
+        [Description("그냥 냅두시면됩니다 (106 한방차원 관련)")]
         public float EscapedHintDuration { get; set; } = 5.0F;
+
 
 
 
