@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using Exiled.Events.EventArgs.Player;
 using PlayerRoles;
 using System.ComponentModel;
+using Exiled.API.Features;
 
 namespace PeutiPlugin
 {
@@ -23,7 +24,7 @@ namespace PeutiPlugin
         public override string Name { get; } = "프티(편의성플러그인)";
         public override string Prefix { get; } = "편의성플러그인";
         public override string Author { get; } = "@Peuti";
-        public override Version Version { get; } = new Version(1, 0, 1);
+        public override Version Version { get; } = new Version(1, 0, 2);
         public override Version RequiredExiledVersion { get; } = new Version(8, 5, 0);
 
         public override PluginPriority Priority { get; } = PluginPriority.Default;
@@ -45,6 +46,8 @@ namespace PeutiPlugin
             WarheadEvents.Stopping += EventHandlers.OnStopping;
             Exiled.Events.Handlers.Player.Hurting += OnAttack;
             Exiled.Events.Handlers.Player.EscapingPocketDimension += OnEscaping;
+            PlayerEvents.Dying += EventHandlers.OnPlayerDied;
+
 
 
 
@@ -59,7 +62,7 @@ namespace PeutiPlugin
 
             EventHandlers = new EventHandlers(this);
             LoadEvents();   
-            Log.Info("플러그인 활성화");
+            Log.Info("플러그인 활성화1");
         }
 
         public override void OnDisabled()
@@ -81,6 +84,7 @@ namespace PeutiPlugin
             WarheadEvents.Stopping -= EventHandlers.OnStopping;
             Exiled.Events.Handlers.Player.Hurting -= OnAttack;
             Exiled.Events.Handlers.Player.EscapingPocketDimension -= OnEscaping;
+            PlayerEvents.Dying -= EventHandlers.OnPlayerDied;
 
 
 
@@ -103,10 +107,11 @@ namespace PeutiPlugin
                     }
                 }
             }
-    
+
+        
 
 
-public override void OnReloaded()
+        public override void OnReloaded()
         {
 
         }
