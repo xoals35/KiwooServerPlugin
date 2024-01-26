@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeutiPlugin", "PeutiPlugin.csproj", "{3F5E3CB1-DE2B-44EA-AB31-9F95A5BB92DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F5E3CB1-DE2B-44EA-AB31-9F95A5BB92DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F5E3CB1-DE2B-44EA-AB31-9F95A5BB92DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F5E3CB1-DE2B-44EA-AB31-9F95A5BB92DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F5E3CB1-DE2B-44EA-AB31-9F95A5BB92DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5208FF5C-EE6B-44A1-84C5-5C7EA637A109}
+	EndGlobalSection
+EndGlobal
