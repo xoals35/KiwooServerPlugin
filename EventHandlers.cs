@@ -42,6 +42,11 @@ using static UnityEngine.GraphicsBuffer;
 using System.Diagnostics.Eventing.Reader;
 using Exiled.API.Features.Spawn;
 using PlayerRoles.PlayableScps.Scp106;
+using System.Timers;
+using System.Text;
+using System.Runtime;
+using System.Threading.Tasks;
+using PlayerRoles.RoleAssign;
 
 
 namespace PeutiPlugin
@@ -65,7 +70,6 @@ namespace PeutiPlugin
 
 
 
-
         public int ChaosRespawnCount { get; set; }
 
         public int MtfRespawnCount { get; set; }
@@ -75,11 +79,21 @@ namespace PeutiPlugin
         public DateTime LastMtfRespawn { get; set; }
 
 
-        internal void OnRoundStarting()
+
+
+        /*internal void OnRoundStarting()
         {
             if (!_pluginInstance.Config.IsEnabled) return;
             Map.Broadcast(10, "<color=orange>라운드가 시작되었습니다.</color>");
         }
+
+        internal void OnRoundEnding(RoundEndedEventArgs ev)
+        {
+
+
+            Map.Broadcast(10, "<color=green>라운드가 종료되었습니다.</color>");
+        }*/
+
 
         internal void OnScpLeave(LeftEventArgs ev)
         {
@@ -88,24 +102,29 @@ namespace PeutiPlugin
         }
 
 
+        
         public void OnPlayerDied(DyingEventArgs ev)
         {
-            if (ev.DamageHandler.Type == DamageTypes.Falldown)return;
-            if (ev.Player == null) return;
-            
+            if (ev.DamageHandler.Type == DamageTypes.Falldown || ev.DamageHandler.Type == DamageTypes.Scp)return;
+            if (ev.Player == null || ev.Attacker == null) return;
+
             bool isCuffed = ev.Player.IsCuffed;
             bool IsAttacker = ev.Attacker.IsHuman;
 
             if (isCuffed && IsAttacker)
             {
-                Map.Broadcast(5, $"<size=30><color=red>{ev.Attacker.Nickname}</color>(이)가 <color=yellow>{ev.Player.Nickname}</color>님을 체포킬 하셨습니다.</size>\n신고용 URL:<color=green>{ev.Player.UserId}</color>");
+                if (_pluginInstance.Config.cuffedkillmessage.Show)
+                {
+                    var message = _pluginInstance.Config.cuffedkillmessage.Content;
+                    message = message.Replace("%Attacker%", ev.Attacker.Nickname.ToString()).Replace("%player%", ev.Player.Nickname.ToString()).Replace("%url%", ev.Player.UserId.ToString());
+                    Map.Broadcast(_pluginInstance.Config.cuffedkillmessage.Duration, message, _pluginInstance.Config.cuffedkillmessage.Type);
+                }
+                
             }
         }
 
 
-
-    
-
+     
 
 
         internal void OnAnnouncingDecontamination(AnnouncingDecontaminationEventArgs ev)
@@ -184,7 +203,14 @@ namespace PeutiPlugin
 
         internal void OnAnnouncingNtfEntrance(AnnouncingNtfEntranceEventArgs ev)
         {
-            Map.Broadcast(10, $"<size=33><color=blue>기동특무부대 {ev.UnitName}-{ev.UnitNumber}</color>이 시설 내에 진입했습니다.\n재격리 대기 중인 <color=red>SCP</color>개체는 <color=red>{ev.ScpsLeft}</color>마리입니다.</size>");
+
+   
+            if (_pluginInstance.Config.NTfAnnouncingMessage.Show)
+            {
+                var message = _pluginInstance.Config.NTfAnnouncingMessage.Content;
+                message = message.Replace("%ntfname%",ev.UnitName.ToString()).Replace("%ntfnumber%", ev.UnitNumber.ToString()).Replace("%scpleft%", ev.ScpsLeft.ToString());
+                Map.Broadcast(_pluginInstance.Config.NTfAnnouncingMessage.Duration, message, _pluginInstance.Config.NTfAnnouncingMessage.Type);
+            }
         }
 
         public void OnPlayerDeath(DyingEventArgs ev)
@@ -211,20 +237,6 @@ namespace PeutiPlugin
             }
         }
 
-
-
-
-       
-    
-
-
-
-        internal void OnRoundEnding(RoundEndedEventArgs ev)
-        {
-
-
-            Map.Broadcast(10, "<color=green>라운드가 종료되었습니다.</color>");
-        }
 
 
         public void OnAnnouncingScpTermination(AnnouncingScpTerminationEventArgs ev)
@@ -265,20 +277,33 @@ namespace PeutiPlugin
                 }
             }
 
-        public void OnStopping(StoppingEventArgs ev)
-        {
-            Map.Broadcast(8, $"<color=red>알파탄두 핵폭탄</color>이 취소되었습니다. \n취소한 사람: {ev.Player.Nickname}/{ev.Player.Role.Name}");
-        }
-        /// <inheritdoc cref="Exiled.Events.Handlers.Warhead.OnStarting(StartingEventArgs)"/>
+
         public void OnStarting(StartingEventArgs ev)
         {
-            Map.Broadcast(8, $"<color=red>알파탄두 핵폭탄</color>이 실행되었습니다. \n실행한 사람: {ev.Player.Nickname}/{ev.Player.Role.Name}");
+            if (_pluginInstance.Config.starthack.Show)
+            {
+                var message = _pluginInstance.Config.starthack.Content;
+                message = message.Replace("%player%", ev.Player.Nickname.ToString()).Replace("%rolename%", ev.Player.Role.Name.ToString());
+                Map.Broadcast(_pluginInstance.Config.starthack.Duration, message, _pluginInstance.Config.starthack.Type);
+            }
+        }
+        public void OnStopping(StoppingEventArgs ev)
+        {
+            if (_pluginInstance.Config.stophack.Show)
+            {
+                var message = _pluginInstance.Config.stophack.Content;
+                message = message.Replace("%player%", ev.Player.Nickname.ToString()).Replace("%rolename%", ev.Player.Role.Name.ToString());
+                Map.Broadcast(_pluginInstance.Config.stophack.Duration, message, _pluginInstance.Config.stophack.Type);
+            }
         }
 
 
        
 
-        public void Dispose()
+
+
+
+            public void Dispose()
             {
                 _pluginInstance = null;
             }
