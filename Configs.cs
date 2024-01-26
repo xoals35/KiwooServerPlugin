@@ -1,7 +1,9 @@
 using Exiled.API.Enums;
+using Exiled.API.Features;
 using Exiled.API.Features.Spawn;
 using Exiled.API.Interfaces;
 using Exiled.Events;
+using Exiled.Events.Handlers;
 using PlayerRoles;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +15,7 @@ namespace PeutiPlugin
 {
     public class Configs : IConfig
     {
+
         public bool IsEnabled { get; set; } = true;
         public bool Debug { get; set; } = true;
 
@@ -35,6 +38,19 @@ namespace PeutiPlugin
         [Description("SCP격리 메세지")]
         public Exiled.API.Features.Broadcast ScpDeathMessage { get; private set; } = new Exiled.API.Features.Broadcast("<color=red>%scpname%<</color>(이)가 격리되었습니다.. \n죽인사람:<color=red>%killername%</color>/원인: <color=red>%reason%</color>", 12, true, Broadcast.BroadcastFlags.Normal);
 
+        [Description("NTF 지원 자막 메세지(사이즈 조정하고 싶을시/ <size=바꾸고싶은크기>여기는 내용 그대로 넣으시면 됩니다</size> (예시: <size=33>NTF 지원이 왔습니다</size>)\n 콘피그에서 12는 지속시간 입니다.")]
+        public Exiled.API.Features.Broadcast NTfAnnouncingMessage { get; private set; } = new Exiled.API.Features.Broadcast("<size=33><color=blue>기동특무부대</color> <color=blue>%ntfname%-%ntfnumber$</color>이 시설 내에 진입하였습니다. \n재격리 대기중인 <color=red>SCP</color>는 <color=red>%scpleft%</color>마리 입니다.</size>", 12, true, Broadcast.BroadcastFlags.Normal);
+
+        [Description("체포킬 메세지(사이즈 조정하고 싶을시/ <size=바꾸고싶은크기>여기는 내용 그대로 넣으시면 됩니다</size> (예시: <size=33>체포킬 하셨습니다</size>)\n 콘피그에서 12는 지속시간 입니다.")]
+        public Exiled.API.Features.Broadcast cuffedkillmessage { get; private set; } = new Exiled.API.Features.Broadcast("<size=33><color=red>%Attacker%</color>님이 <color=yellow>%player%님을 체포킬 하셨습니다.\n신고용 URL:%url%</size>", 12, true, Broadcast.BroadcastFlags.Normal);
+
+        [Description("핵폭탄 실행메세지(사이즈 조정하고 싶을시/ <size=바꾸고싶은크기>여기는 내용 그대로 넣으시면 됩니다</size> (예시: <size=33>핵폭탄이 실행되었습니다. 하셨습니다</size>)\n 콘피그에서 8는 지속시간 입니다.")]
+        public Exiled.API.Features.Broadcast starthack { get; private set; } = new Exiled.API.Features.Broadcast("<size=33><color=red>알파탄두 핵탄두</color>가 실행되었습니다. \n실행한 사람: %player%(%rolename%)</size>", 8, true, Broadcast.BroadcastFlags.Normal);
+
+        [Description("핵폭탄 중단 메세지(사이즈 조정하고 싶을시/ <size=바꾸고싶은크기>여기는 내용 그대로 넣으시면 됩니다</size> (예시: <size=33>핵폭탄이 중단되었습니다.</size>)\n 콘피그에서 8는 지속시간 입니다.")]
+        public Exiled.API.Features.Broadcast stophack { get; private set; } = new Exiled.API.Features.Broadcast("<size=33><color=red>알파탄두 핵탄두</color>가 중단되었습니다. \n중단한 사람: %player%(%rolename%)</size>", 8, true, Broadcast.BroadcastFlags.Normal);
+
+
         [Description("SCP-049-2의 죽음을 방송해야 합니까?")]
         public bool Scp0492DeathBroadcast { get; private set; } = false;
 
@@ -48,29 +64,27 @@ namespace PeutiPlugin
         [Description("096에 타겟이 될떄 메세지가 떠야하나요?")]
         public string Scp096TargetNotifyText { get; private set; } = "<color=red>경고:</color>\n<color=purple>당신은 096의 타켓입니다 도망가세요!!</color>";
 
-        [Description("SCP가 중토퇴장씨 메세지를 보내실건가요?")]
+        [Description("Should SCP Leave message be shown?")]
         public bool ScpLeftMessageEnable { get; private set; } = true;
 
 
         [Description("SCP-106의 공격을 받은 플레이어에게 보내는 메세지")]
         public string CaughtHintText { get; set; } = "";
 
-        [Description("106 한방 차원기능 힌트 지속시간(냅두시면 됩니다 메세지 안나옵니다)")]
+        [Description("Caught to PD player hint duration")]
         public float CaughtHintDuration { get; set; } = 5.0F;
 
-        [Description("위 설명과 같은 (106 한방 차원기능 힌트 메세지 ~)")]
+        [Description("PD를 탈출한 플레이어에게 보내는 힌트")]
         public string EscapedHintText { get; set; } = "";
 
-        [Description("그냥 냅두시면됩니다 (106 한방차원 관련)")]
+        [Description("Escaped PD hint duration")]
         public float EscapedHintDuration { get; set; } = 5.0F;
 
 
 
-
-
-
     }
-}
+    }
+
 
 
 
