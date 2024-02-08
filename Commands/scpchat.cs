@@ -43,6 +43,12 @@ namespace PeutiPlugin
             
             string content = $"<color=red>[SCPCHAT]</color>{player.Nickname}({player.Role.Name})\n 메세지 내용: ";
 
+           if (Arguments.Count < 1)
+            {
+                response = "한 글자 이상씩은 써주세요!!";
+                return false;
+            }
+
             for (int i = Arguments.Offset; i < Arguments.Count + Arguments.Offset; i++)
             {
                 content += Arguments.Array[i] + " ";
@@ -84,8 +90,3 @@ namespace PeutiPlugin
 
 
     }
-
-        
-   
-
-
