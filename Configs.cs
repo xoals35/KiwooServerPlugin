@@ -64,20 +64,20 @@ namespace PeutiPlugin
         [Description("096에 타겟이 될떄 메세지가 떠야하나요?")]
         public string Scp096TargetNotifyText { get; private set; } = "<color=red>경고:</color>\n<color=purple>당신은 096의 타켓입니다 도망가세요!!</color>";
 
-        [Description("Should SCP Leave message be shown?")]
+        [Description("SCP가 중도퇴장씨 중도퇴장 메세지가 떠야 하나요?")]
         public bool ScpLeftMessageEnable { get; private set; } = true;
 
 
         [Description("SCP-106의 공격을 받은 플레이어에게 보내는 메세지")]
         public string CaughtHintText { get; set; } = "";
 
-        [Description("Caught to PD player hint duration")]
+        [Description("안 건들려도 됩니당)]
         public float CaughtHintDuration { get; set; } = 5.0F;
 
-        [Description("PD를 탈출한 플레이어에게 보내는 힌트")]
+        [Description("PD를 탈출한 플레이어에게 보내는 힌트(기본값 메세지X)")]
         public string EscapedHintText { get; set; } = "";
 
-        [Description("Escaped PD hint duration")]
+        [Description("안 건들려도 됩니당")]
         public float EscapedHintDuration { get; set; } = 5.0F;
 
 
