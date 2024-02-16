@@ -1,5 +1,5 @@
-# 편의성 플러그인 - (EXILED)
-scp sl KiwooServerPlugin
+# KiwooServerPlugin - (EXILED)
+
 
 |현재 있는 기능들|
 |------|
