@@ -1,4 +1,6 @@
-# KiwooServerPlugin - (EXILED) <현재 업데이트 중단>[업데이트 할 예정 아직 X]
+# KiwooServerPlugin - (EXILED)
+# <현재 업데이트 중단>[업데이트 할 예정 아직 X]
+# [코드는 마음대로 쓰셔도 됩니다.]
 
 
 |현재 있는 기능들|
